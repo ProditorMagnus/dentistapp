@@ -3,3 +3,5 @@ Teine suur probleem oli et saada kontrollerist andmed vaatesse. http://crunchify
 Siis tuli käivitades hulk exceptioneid, alumine neist nullpointer. Isegi revert eelmise commitini ei aidanud. Vaja oli .iml kustutada ja projekt uuesti importida.
 
 Süsteemi taaskäivitamine oli tüütu, sellega läks iga iteratsioon 0.3min. Seega uurisin JRebeli kohta. See lahendas probleemi.
+
+Kujunduse tegemine oli lihtne, töö oli juba veebirakenduste loomise aine raames tehtud.

@@ -17,12 +17,20 @@ public class DentistVisitEntity {
     @Column(name = "dentist_name")
     private String dentistName;
 
+    @Column(name = "doc_name")
+    private String docName;
+
     public DentistVisitEntity() {
     }
 
-    public DentistVisitEntity(String dentistName, Date visitTime) {
+    public DentistVisitEntity(String dentistName, String docName, Date visitTime) {
         this.setDentistName(dentistName);
         this.setVisitTime(visitTime);
+        if (docName != null) {
+            this.setDocName(docName);
+        } else {
+            this.setDocName("null");
+        }
     }
 
     public Long getId() {
@@ -49,4 +57,11 @@ public class DentistVisitEntity {
         this.dentistName = dentistName;
     }
 
+    public String getDocName() {
+        return docName;
+    }
+
+    public void setDocName(String docName) {
+        this.docName = docName;
+    }
 }

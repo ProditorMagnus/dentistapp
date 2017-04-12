@@ -1,14 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>Registreeringud</title>
+    <style>
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        nav li {
+            float: left;
+        }
+
+        nav li a {
+            display: inline-block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav li a:hover {
+            background-color: #111;
+        }
+    </style>
 </head>
 <body>
-<tr th:each="message : ${visits}">
-    <td th:text="${message.id}">Text ...</td>
-    <td th:text="${message.visitTime}">Text ...</td>
-    <td th:text="${message.dentistName}">Text ...</td>
+<nav>
+    <ul>
+        <li><a href="/">Avaleht</a></li>
+        <li><a href="/view">Registreeringud</a></li>
+    </ul>
+</nav>
+<form action="#" th:action="@{/view}" th:object="${dentistVisitDTO}" method="post">
+    <table>
+        <tr>
+            <td><p th:text="#{arsti.nimi}">arsti.nimi</p></td>
+            <td><input type="text" th:field="*{dentistName}"/></td>
+        </tr>
+        <tr>
+            <td><p th:text="#{pere.arsti.nimi}">pere.arsti.nimi</p></td>
+            <td><input type="text" th:field="*{docName}"/></td>
+        </tr>
+        <tr>
+            <td><p th:text="#{visiidi.kuupaev}">visiidi.kuupaev</p></td>
+            <td><input th:field="*{visitTime}"/></td>
+        </tr>
+        <tr>
+            <td><p th:text="#{visiidi.aeg}">visiidi.aeg</p></td>
+            <td><input class="timepicker" th:field="*{visitTimeH}"/></td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit" th:text="#{otsi}"></button>
+            </td>
+        </tr>
+    </table>
+</form>
+<tr th:each="visit : ${visits}">
+    <td th:text="${visit.id}">Text ...</td>
+    <td th:text="${visit.visitTime}">Text ...</td>
+    <td th:text="${visit.dentistName}">Text ...</td>
     <br/>
 </tr>
 </body>

@@ -1,5 +1,39 @@
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{registreerimine.ok}">registreerimine.ok</title>
+    <style>
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        nav li {
+            float: left;
+        }
+
+        nav li a {
+            display: inline-block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav li a:hover {
+            background-color: #111;
+        }
+    </style>
+</head>
 <body>
+<nav>
+    <ul>
+        <li><a href="/">Avaleht</a></li>
+        <li><a href="/view">Registreeringud</a></li>
+    </ul>
+</nav>
 <p th:text="#{registreerimine.ok}">registreerimine.ok</p>
 </body>
 </html>

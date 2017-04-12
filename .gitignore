@@ -1,3 +1,5 @@
 .idea
 target/
 dentistapp.iml
+nppBackup/
+src/main/resources/rebel.xml

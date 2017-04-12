@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Registreeringud</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
     <style>
         nav ul {
             list-style-type: none;
@@ -36,36 +41,40 @@
         <li><a href="/view">Registreeringud</a></li>
     </ul>
 </nav>
-<form action="#" th:action="@{/view}" th:object="${dentistVisitDTO}" method="post">
-    <table>
+<div class="container">
+    <form action="#" th:action="@{/view}" th:object="${dentistVisitDTO}" method="post">
+        <div class="form-group">
+            <label th:text="#{arsti.nimi}">arsti.nimi</label>
+            <input class="form-control" type="text" th:field="*{dentistName}"/>
+        </div>
+        <div class="form-group">
+            <label th:text="#{pere.arsti.nimi}">pere.arsti.nimi</label>
+            <input class="form-control" type="text" th:field="*{docName}"/>
+        </div>
+        <div class="form-group">
+            <label th:text="#{visiidi.kuupaev}">visiidi.kuupaev</label>
+            <input class="form-control" type="text" th:field="*{visitTime}"/>
+        </div>
+        <div class="form-group">
+            <label th:text="#{visiidi.aeg}">visiidi.aeg</label>
+            <input class="timepicker form-control" type="text" th:field="*{visitTimeH}"/>
+        </div>
+        <button type="submit" class="btn btn-md btn-default" th:text="#{str.otsi}">str.otsi</button>
+    </form>
+    <table class="table">
         <tr>
-            <td><p th:text="#{arsti.nimi}">arsti.nimi</p></td>
-            <td><input type="text" th:field="*{dentistName}"/></td>
+            <td th:text="#{visit.id}"></td>
+            <td th:text="#{visit.time}"></td>
+            <td th:text="#{visit.gp}"></td>
+            <td th:text="#{visit.dentist}"></td>
         </tr>
-        <tr>
-            <td><p th:text="#{pere.arsti.nimi}">pere.arsti.nimi</p></td>
-            <td><input type="text" th:field="*{docName}"/></td>
-        </tr>
-        <tr>
-            <td><p th:text="#{visiidi.kuupaev}">visiidi.kuupaev</p></td>
-            <td><input th:field="*{visitTime}"/></td>
-        </tr>
-        <tr>
-            <td><p th:text="#{visiidi.aeg}">visiidi.aeg</p></td>
-            <td><input class="timepicker" th:field="*{visitTimeH}"/></td>
-        </tr>
-        <tr>
-            <td>
-                <button type="submit" th:text="#{str.otsi}"></button>
-            </td>
+        <tr th:each="visit : ${visits}">
+            <td th:text="${visit.id}">Text ...</td>
+            <td th:text="${visit.visitTime}">Text ...</td>
+            <td th:text="${visit.docName}">Text ...</td>
+            <td th:text="${visit.dentistName}">Text ...</td>
         </tr>
     </table>
-</form>
-<tr th:each="visit : ${visits}">
-    <td th:text="${visit.id}">Text ...</td>
-    <td th:text="${visit.visitTime}">Text ...</td>
-    <td th:text="${visit.dentistName}">Text ...</td>
-    <br/>
-</tr>
+</div>
 </body>
 </html>

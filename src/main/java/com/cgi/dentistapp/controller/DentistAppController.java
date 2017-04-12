@@ -104,8 +104,9 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
         Date visitTimeH = dentistVisitDTO.getVisitTimeH();
         String dentistName = dentistVisitDTO.getDentistName();
         String docName = dentistVisitDTO.getDocName();
-//        if (docName != null && dentistVisitEntity.getDocName() != null && !docName.equals(dentistVisitEntity.getDocName()))
-//            return false;
+        if (docName != null && !"".equals(docName) && dentistVisitEntity.getDocName() != null && !docName.equals(dentistVisitEntity.getDocName())) {
+            return false;
+        }
         return true;
     }
 }

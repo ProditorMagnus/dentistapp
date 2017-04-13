@@ -1,6 +1,9 @@
 package com.cgi.dentistapp.dao.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -11,6 +14,7 @@ public class DentistVisitEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm")
     @Column(name = "visit_time")
     private Date visitTime;
 
@@ -23,6 +27,7 @@ public class DentistVisitEntity {
     @Column(name = "remote_ip")
     private String remoteIP;
 
+    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm.SSSZ")
     @Column(name = "timestamp")
     private Date timestamp;
 
@@ -87,5 +92,9 @@ public class DentistVisitEntity {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getDateString() {
+        return new SimpleDateFormat("dd.MM.yyyy hh:mm").format(getVisitTime());
     }
 }

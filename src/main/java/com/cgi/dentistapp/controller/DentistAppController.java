@@ -1,6 +1,7 @@
 package com.cgi.dentistapp.controller;
 
 import com.cgi.dentistapp.dao.entity.DentistVisitEntity;
+import com.cgi.dentistapp.dto.DentistEditDTO;
 import com.cgi.dentistapp.dto.DentistVisitDTO;
 import com.cgi.dentistapp.service.DentistVisitService;
 import org.apache.commons.lang3.time.DateUtils;
@@ -13,6 +14,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -171,9 +173,29 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
 
     @GetMapping("/delete/{id}")
     public String deleteRegistration(@PathVariable("id") int id, ModelMap model) {
-//        model.addAttribute("visit", dentistVisitService.listVisits().stream().filter(dentistVisitEntity -> dentistVisitEntity.getId() == id).findFirst().get());
         dentistVisitService.delVisit(id);
         return "redirect:/view";
+    }
+
+    @RequestMapping("/edit/{id}")
+    public String editRegistration(@PathVariable("id") int id, DentistEditDTO dentistEditDTO, ModelMap model) {
+        DentistVisitEntity entity = dentistVisitService.listVisits().stream().filter(e -> e.getId() == id).findFirst().get();
+        Date visitTime = entity.getVisitTime();
+        model.addAttribute("visit", entity);
+        return "edit";
+    }
+
+    @PostMapping("/edit")
+    public String onEditRegistration(@Valid DentistEditDTO dentistEditDTO, BindingResult bindingResult, ModelMap model) {
+        // No date validation, this is for admin use
+        if (bindingResult.hasErrors()) {
+            DentistVisitEntity entity = dentistVisitService.listVisits().stream().filter(e -> e.getId() == dentistEditDTO.getSentId()).findFirst().get();
+            model.addAttribute("visit", entity);
+            return "edit";
+//            return "redirect:/edit/" + dentistEditDTO.getSentId();
+        }
+        dentistVisitService.updateVisit(dentistEditDTO);
+        return "redirect:/details/" + dentistEditDTO.getSentId();
     }
 
     private static class TimeValidationResult {

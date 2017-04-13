@@ -9,4 +9,6 @@ Kujunduse tegemine oli lihtne, töö oli juba veebirakenduste loomise aine raame
 Nime otsingut üritatakse kõigepealt tõlgendada kui regulaaravaldist, kus algusesse ja lõppu pannakse .* , kui ei õnnestu, siis vaadatakse alamsõnet
 
 > ning otsingu tulemustele vajutades avaneks detailne registreeringu vaate vorm.
-Siis ehk päringu tegemise aeg ja IP
+Detailideks said siis päringu tegemise aeg ja IP
+
+Ebamugavaks osutus kuupäeva ja kellaaja lahus hoidmine. Selle lahendamiseks tegin juurde DentistEditDTO ja lisasin kuupäeva formaadi teisendamise meetodi.

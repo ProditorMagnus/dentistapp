@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Registreeringud</title>
-    <script type="text/ecmascript" src="/pickDate.js"></script>
+    <title th:text="#{str.edit}"></title>
+    <script type="text/ecmascript" src="/testInput.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -27,41 +26,34 @@
 <body>
 <div th:replace="navbar :: header"></div>
 <div class="container">
-    <form action="#" th:action="@{/view}" th:object="${dentistVisitDTO}" method="post">
+    <form action="#" th:action="@{/edit}" th:object="${dentistEditDTO}" method="post">
         <div class="form-group">
             <label for="dentistName" th:text="#{arsti.nimi}">arsti.nimi</label>
-            <input id="dentistName" class="form-control" type="text" th:field="*{dentistName}"/>
+            <input id="dentistName" class="form-control" type="text" name="dentistName"
+                   th:value="${visit.dentistName}"/>
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('dentistName')}" th:errors="*{dentistName}">Nime
+                viga
+            </div>
         </div>
         <div class="form-group">
             <label for="docName" th:text="#{pere.arsti.nimi}">pere.arsti.nimi</label>
-            <input id="docName" class="form-control" type="text" th:field="*{docName}"/>
+            <input id="docName" class="form-control" type="text" name="docName" th:value="${visit.docName}"/>
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('docName')}" th:errors="*{docName}">Nime viga
+            </div>
         </div>
         <div class="form-group">
             <label for="visitTime" th:text="#{visiidi.kuupaev}">visiidi.kuupaev</label>
-            <input id="visitTime" class="datepicker form-control" type="text" th:field="*{visitTime}"/>
+            <input id="visitTime" class="form-control" type="text" name="visitTime"
+                   th:value="${visit.getDateString()}"/>
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('visitTime')}" th:errors="*{visitTime}">Kuupäeva
+                viga
+            </div>
         </div>
-        <div class="form-group">
-            <label for="visitHours" th:text="#{visiidi.aeg}">visiidi.aeg</label>
-            <input id="visitHours" class="timepicker form-control" type="text" th:field="*{visitTimeH}"/>
-        </div>
-        <button type="submit" class="btn btn-md btn-default" th:text="#{str.otsi}">str.otsi</button>
+        <input type="hidden" name="sentId" th:value="${visit.id}"/>
+        <button type="submit" class="btn btn-md btn-default" th:text="#{str.edit}"></button>
+        <button type="button" class="btn btn-md btn-default" onclick="fillValidDate()"
+                th:text="#{str.test.all}"></button>
     </form>
-    <table class="table">
-        <tr>
-            <td th:text="#{visit.id}"></td>
-            <td th:text="#{visit.time}"></td>
-            <td th:text="#{visit.gp}"></td>
-            <td th:text="#{visit.dentist}"></td>
-            <td th:text="#{visit.details}"></td>
-        </tr>
-        <tr th:each="visit : ${visits}">
-            <td th:text="${visit.id}">Text ...</td>
-            <td th:text="${visit.visitTime}">Text ...</td>
-            <td th:text="${visit.docName}">Text ...</td>
-            <td th:text="${visit.dentistName}">Text ...</td>
-            <td><a th:href="'/details/'+${visit.id}" th:text="#{visit.details}"></a></td>
-        </tr>
-    </table>
 </div>
 </body>
 </html>

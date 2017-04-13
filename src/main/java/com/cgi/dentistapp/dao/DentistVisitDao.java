@@ -23,6 +23,14 @@ public class DentistVisitDao {
         entityManager.persist(visit);
     }
 
+    public void update(DentistVisitEntity visit) {
+        entityManager.merge(visit);
+    }
+
+    public DentistVisitEntity getVisit(long id) {
+        return entityManager.find(DentistVisitEntity.class, id);
+    }
+
     public List<DentistVisitEntity> getAllVisits() {
         return entityManager.createQuery("SELECT e FROM DentistVisitEntity e").getResultList();
     }

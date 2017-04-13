@@ -5,6 +5,7 @@ import com.cgi.dentistapp.dao.entity.DentistVisitEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
@@ -12,12 +13,14 @@ import java.util.List;
 @Service
 @Transactional
 public class DentistVisitService {
+    @Autowired
+    private HttpServletRequest request;
 
     @Autowired
     private DentistVisitDao dentistVisitDao;
 
     public void addVisit(String dentistName, String docName, Date visitTime, Date visitTimeH) {
-        DentistVisitEntity visit = new DentistVisitEntity(dentistName, docName, new Date(visitTime.getYear(), visitTime.getMonth(), visitTime.getDate(), visitTimeH.getHours(), visitTimeH.getMinutes()));
+        DentistVisitEntity visit = new DentistVisitEntity(dentistName, docName, new Date(visitTime.getYear(), visitTime.getMonth(), visitTime.getDate(), visitTimeH.getHours(), visitTimeH.getMinutes()), request.getRemoteAddr());
         dentistVisitDao.create(visit);
     }
 

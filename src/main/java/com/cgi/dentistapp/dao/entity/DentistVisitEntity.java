@@ -20,12 +20,16 @@ public class DentistVisitEntity {
     @Column(name = "doc_name")
     private String docName;
 
+    @Column(name = "remote_ip")
+    private String remoteIP;
+
     public DentistVisitEntity() {
     }
 
-    public DentistVisitEntity(String dentistName, String docName, Date visitTime) {
+    public DentistVisitEntity(String dentistName, String docName, Date visitTime, String remoteIP) {
         this.setDentistName(dentistName);
         this.setVisitTime(visitTime);
+        this.setRemoteIP(remoteIP);
         if (docName != null) {
             this.setDocName(docName);
         } else {
@@ -63,5 +67,13 @@ public class DentistVisitEntity {
 
     public void setDocName(String docName) {
         this.docName = docName;
+    }
+
+    public String getRemoteIP() {
+        return remoteIP;
+    }
+
+    public void setRemoteIP(String remoteIP) {
+        this.remoteIP = remoteIP;
     }
 }

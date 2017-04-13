@@ -7,3 +7,6 @@ Süsteemi taaskäivitamine oli tüütu, sellega läks iga iteratsioon 0.3min. Se
 Kujunduse tegemine oli lihtne, töö oli juba veebirakenduste loomise aine raames tehtud.
 
 Nime otsingut üritatakse kõigepealt tõlgendada kui regulaaravaldist, kus algusesse ja lõppu pannakse .* , kui ei õnnestu, siis vaadatakse alamsõnet
+
+> ning otsingu tulemustele vajutades avaneks detailne registreeringu vaate vorm.
+Siis ehk päringu tegemise aeg ja IP

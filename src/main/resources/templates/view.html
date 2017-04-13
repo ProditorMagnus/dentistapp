@@ -52,12 +52,14 @@
             <td th:text="#{visit.time}"></td>
             <td th:text="#{visit.gp}"></td>
             <td th:text="#{visit.dentist}"></td>
+            <td th:text="#{visit.remoteIP}"></td>
         </tr>
         <tr th:each="visit : ${visits}">
             <td th:text="${visit.id}">Text ...</td>
             <td th:text="${visit.visitTime}">Text ...</td>
             <td th:text="${visit.docName}">Text ...</td>
             <td th:text="${visit.dentistName}">Text ...</td>
+            <td th:text="${visit.remoteIP}">Text ...</td>
         </tr>
     </table>
 </div>

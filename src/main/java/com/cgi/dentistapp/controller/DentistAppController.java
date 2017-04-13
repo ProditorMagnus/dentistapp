@@ -3,6 +3,7 @@ package com.cgi.dentistapp.controller;
 import com.cgi.dentistapp.dao.entity.DentistVisitEntity;
 import com.cgi.dentistapp.dto.DentistVisitDTO;
 import com.cgi.dentistapp.service.DentistVisitService;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
@@ -15,8 +16,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.validation.Valid;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -42,14 +42,24 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
 
     @PostMapping("/")
     public String postRegisterForm(@Valid DentistVisitDTO dentistVisitDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "form";
+//        if (bindingResult.hasErrors()) {
+//            return "form";
+//        }
+        String timeField = "visitTimeH";
+        String dateField = "visitTime";
+        TimeValidationResult dateValidation = invalidDate(dentistVisitDTO);
+        TimeValidationResult timeValidation = invalidTime(dentistVisitDTO);
+        if (dateValidation.hasError(dateField)) {
+            bindingResult.addError(new FieldError(dateField, dateField, dateValidation.getMessages(dateField)));
         }
-        if (invalidDate(dentistVisitDTO)) {
-            bindingResult.addError(new FieldError("visitTime", "visitTime", "Vigane kuupäev"));
+        if (timeValidation.hasError(dateField)) {
+            bindingResult.addError(new FieldError(dateField, dateField, timeValidation.getMessages(dateField)));
         }
-        if (invalidTime(dentistVisitDTO)) {
-            bindingResult.addError(new FieldError("visitTimeH", "visitTimeH", "Vigane kellaaeg"));
+        if (dateValidation.hasError(timeField)) {
+            bindingResult.addError(new FieldError(timeField, timeField, dateValidation.getMessages(timeField)));
+        }
+        if (timeValidation.hasError(timeField)) {
+            bindingResult.addError(new FieldError(timeField, timeField, timeValidation.getMessages(timeField)));
         }
         if (bindingResult.hasErrors()) {
             return "form";
@@ -58,33 +68,49 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
         return "redirect:/results";
     }
 
-    private boolean invalidTime(DentistVisitDTO dentistVisitDTO) {
+    private TimeValidationResult invalidTime(DentistVisitDTO dentistVisitDTO) {
+        String field = "visitTimeH";
         try {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(dentistVisitDTO.getVisitTimeH());
             if (calendar.get(Calendar.HOUR_OF_DAY) > closeH || calendar.get(Calendar.HOUR_OF_DAY) < openH) {
-                return true;
+                return new TimeValidationResult(false, field, "Vigane vastuvõtukellaaeg");
             }
             if (calendar.get(Calendar.MINUTE) % appointmentLen != 0) {
-                return true;
+                return new TimeValidationResult(false, field, "Vigane minutite hulk, tunnis on " + appointmentsPerH + " vastuvõttu");
             }
+        } catch (NullPointerException e) {
+            // message added by thymeleaf already
         } catch (Exception e) {
-            return true;
+            return new TimeValidationResult(false, field, "Exception: " + e.getMessage());
         }
-        return false;
+        return new TimeValidationResult(true);
     }
 
-    private boolean invalidDate(DentistVisitDTO dentistVisitDTO) {
+    private TimeValidationResult invalidDate(DentistVisitDTO dentistVisitDTO) {
+        String field = "visitTime";
         try {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(dentistVisitDTO.getVisitTime());
-            if (calendar.before(Calendar.getInstance())) {
-                return true;
+
+            if (DateUtils.isSameDay(calendar, Calendar.getInstance())) {
+                // same day, so need to check h too
+                Calendar hours = Calendar.getInstance();
+                hours.setTime(dentistVisitDTO.getVisitTimeH());
+                if (DateUtils.getFragmentInMinutes(hours, Calendar.HOUR_OF_DAY) > DateUtils.getFragmentInMinutes(Calendar.getInstance(), Calendar.HOUR_OF_DAY)) {
+                    // same day, and earlier time
+                    return new TimeValidationResult(false, field, "Vastuvõtuaeg on minevikus 2").addInvalidField("visitTimeH").addMessage("visitTimeH", "Vastuvõtuaeg on minevikus");
+                }
+            } else if (calendar.before(Calendar.getInstance())) {
+                return new TimeValidationResult(false, field, "Vastuvõtuaeg on minevikus 1");
             }
+        } catch (NullPointerException e) {
+            // message added by thymeleaf already
         } catch (Exception e) {
-            return true;
+            e.printStackTrace();
+            return new TimeValidationResult(false, field, "Exception: " + e.getMessage());
         }
-        return false;
+        return new TimeValidationResult(true);
     }
 
     @GetMapping("/view")
@@ -108,5 +134,50 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
             return false;
         }
         return true;
+    }
+
+    private static class TimeValidationResult {
+        final boolean valid;
+        final Map<String, List<String>> messages = new HashMap<>();
+        final Set<String> invalidFields = new HashSet<>();
+
+        private TimeValidationResult(boolean valid, String field, String... message) {
+            this.valid = valid;
+            invalidFields.add(field);
+            messages.putIfAbsent(field, new ArrayList<>());
+            messages.get(field).addAll(Arrays.asList(message));
+        }
+
+        private TimeValidationResult(boolean valid) {
+            this.valid = valid;
+        }
+
+        private TimeValidationResult addInvalidField(String field) {
+            invalidFields.add(field);
+            messages.putIfAbsent(field, new ArrayList<>());
+            return this;
+        }
+
+        private TimeValidationResult addMessage(String field, String message) {
+            messages.get(field).add(message);
+            return this;
+        }
+
+        private TimeValidationResult clearMessages() {
+            messages.clear();
+            return this;
+        }
+
+        private boolean hasError(String field) {
+            return invalidFields.contains(field);
+        }
+
+        private String getMessages(String field) {
+            StringBuilder sb = new StringBuilder();
+
+            messages.get(field).forEach(sb::append);
+//            messages.getOrDefault(field, new ArrayList<>()).forEach(sb::append);
+            return sb.toString();
+        }
     }
 }

@@ -18,20 +18,20 @@
 <div class="container">
     <form action="#" th:action="@{/view}" th:object="${dentistVisitDTO}" method="post">
         <div class="form-group">
-            <label th:text="#{arsti.nimi}">arsti.nimi</label>
-            <input class="form-control" type="text" th:field="*{dentistName}"/>
+            <label for="dentistName" th:text="#{arsti.nimi}">arsti.nimi</label>
+            <input id="dentistName" class="form-control" type="text" th:field="*{dentistName}"/>
         </div>
         <div class="form-group">
-            <label th:text="#{pere.arsti.nimi}">pere.arsti.nimi</label>
-            <input class="form-control" type="text" th:field="*{docName}"/>
+            <label for="docName" th:text="#{pere.arsti.nimi}">pere.arsti.nimi</label>
+            <input id="docName" class="form-control" type="text" th:field="*{docName}"/>
         </div>
         <div class="form-group">
-            <label th:text="#{visiidi.kuupaev}">visiidi.kuupaev</label>
-            <input class="form-control" type="text" th:field="*{visitTime}"/>
+            <label for="visitTime" th:text="#{visiidi.kuupaev}">visiidi.kuupaev</label>
+            <input id="visitTime" class="form-control" type="text" th:field="*{visitTime}"/>
         </div>
         <div class="form-group">
-            <label th:text="#{visiidi.aeg}">visiidi.aeg</label>
-            <input class="timepicker form-control" type="text" th:field="*{visitTimeH}"/>
+            <label for="visitHours" th:text="#{visiidi.aeg}">visiidi.aeg</label>
+            <input id="visitHours" class="timepicker form-control" type="text" th:field="*{visitTimeH}"/>
         </div>
         <button type="submit" class="btn btn-md btn-default" th:text="#{str.otsi}">str.otsi</button>
     </form>

@@ -34,35 +34,33 @@
 </head>
 <body>
 <div th:replace="navbar :: header"></div>
-<form action="#" th:action="@{/}" th:object="${dentistVisitDTO}" method="post">
-    <table>
-        <tr>
-            <td><p th:text="#{arsti.nimi}">arsti.nimi</p></td>
-            <td><input type="text" th:field="*{dentistName}"/></td>
-            <td th:if="${#fields.hasErrors('dentistName')}" th:errors="*{dentistName}">Nime viga</td>
-        </tr>
-        <tr>
-            <td><p th:text="#{pere.arsti.nimi}">pere.arsti.nimi</p></td>
-            <td><input type="text" th:field="*{docName}"/></td>
-            <td th:if="${#fields.hasErrors('docName')}" th:errors="*{docName}">Nime viga</td>
-        </tr>
-        <tr>
-            <td><p th:text="#{visiidi.kuupaev}">visiidi.kuupaev</p></td>
-            <td><input th:field="*{visitTime}"/></td>
-            <td th:if="${#fields.hasErrors('visitTime')}" th:errors="*{visitTime}">Kuupäeva viga</td>
-        </tr>
-        <tr>
-            <td><p th:text="#{visiidi.aeg}">visiidi.aeg</p></td>
-            <td><input class="timepicker" th:field="*{visitTimeH}"/></td>
-            <td th:if="${#fields.hasErrors('visitTimeH')}" th:errors="*{visitTimeH}">Aja viga</td>
-        </tr>
-        <tr>
-            <td>
-                <button type="submit" th:text="#{registreeri.visiidile}"></button>
-            </td>
-        </tr>
-    </table>
-</form>
+<div class="container">
+    <form action="#" th:action="@{/}" th:object="${dentistVisitDTO}" method="post">
+        <div class="form-group">
+            <label for="dentistName" th:text="#{arsti.nimi}">arsti.nimi</label>
+            <input id="dentistName" class="form-control" type="text" th:field="*{dentistName}"/>
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('dentistName')}" th:errors="*{dentistName}">Nime viga
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="docName" th:text="#{pere.arsti.nimi}">pere.arsti.nimi</label>
+            <input id="docName" class="form-control" type="text" th:field="*{docName}"/>
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('docName')}" th:errors="*{docName}">Nime viga</div>
+        </div>
+        <div class="form-group">
+            <label for="visitTime" th:text="#{visiidi.kuupaev}">visiidi.kuupaev</label>
+            <input id="visitTime" class="form-control" type="text" th:field="*{visitTime}"/>
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('visitTime')}" th:errors="*{visitTime}">Kuupäeva viga
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="visitHours" th:text="#{visiidi.aeg}">visiidi.aeg</label>
+            <input id="visitHours" class="timepicker form-control" type="text" th:field="*{visitTimeH}"/>
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('visitTimeH')}" th:errors="*{visitTimeH}">Aja viga</div>
+        </div>
+        <button type="submit" class="btn btn-md btn-default" th:text="#{registreeri.visiidile}"></button>
+    </form>
+</div>
 <script
         src="https://code.jquery.com/jquery-3.2.1.min.js"
         integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="

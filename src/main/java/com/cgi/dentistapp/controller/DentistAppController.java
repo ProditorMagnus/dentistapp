@@ -62,11 +62,27 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
         if (timeValidation.hasError(timeField)) {
             bindingResult.addError(new FieldError(timeField, timeField, timeValidation.getMessages(timeField)));
         }
+        if (conflictingTime(dentistVisitDTO)) {
+            bindingResult.addError(new FieldError(timeField, timeField, "See aeg on sellel päeval juba valitud"));
+        }
         if (bindingResult.hasErrors()) {
             return "form";
         }
         dentistVisitService.addVisit(dentistVisitDTO.getDentistName(), dentistVisitDTO.getDocName(), dentistVisitDTO.getVisitTime(), dentistVisitDTO.getVisitTimeH());
         return "redirect:/results";
+    }
+
+    private boolean conflictingTime(DentistVisitDTO dentistVisitDTO) {
+        Date visitTime = dentistVisitDTO.getVisitTime();
+        Date visitTimeH = dentistVisitDTO.getVisitTimeH();
+        Date date = new Date(visitTime.getYear(), visitTime.getMonth(), visitTime.getDate(), visitTimeH.getHours(), visitTimeH.getMinutes());
+        // This is certainly possible without asking for full list.. but so far I have only encountered asking all or 1
+        for (DentistVisitEntity entity : dentistVisitService.listVisits()) {
+            if (entity.getVisitTime().getTime() == date.getTime()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private TimeValidationResult invalidTime(DentistVisitDTO dentistVisitDTO) {

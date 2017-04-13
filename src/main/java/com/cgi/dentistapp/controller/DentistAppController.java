@@ -42,9 +42,6 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
 
     @PostMapping("/")
     public String postRegisterForm(@Valid DentistVisitDTO dentistVisitDTO, BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            return "form";
-//        }
         String timeField = "visitTimeH";
         String dateField = "visitTime";
         TimeValidationResult dateValidation = invalidDate(dentistVisitDTO);
@@ -97,7 +94,9 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
                 // same day, so need to check h too
                 Calendar hours = Calendar.getInstance();
                 hours.setTime(dentistVisitDTO.getVisitTimeH());
-                if (DateUtils.getFragmentInMinutes(hours, Calendar.HOUR_OF_DAY) > DateUtils.getFragmentInMinutes(Calendar.getInstance(), Calendar.HOUR_OF_DAY)) {
+                long chosen = DateUtils.getFragmentInMinutes(hours, Calendar.DATE);
+                long current = DateUtils.getFragmentInMinutes(Calendar.getInstance(), Calendar.DATE);
+                if (chosen < current) {
                     // same day, and earlier time
                     return new TimeValidationResult(false, field, "Vastuvõtuaeg on minevikus 2").addInvalidField("visitTimeH").addMessage("visitTimeH", "Vastuvõtuaeg on minevikus");
                 }
@@ -176,7 +175,6 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
             StringBuilder sb = new StringBuilder();
 
             messages.get(field).forEach(sb::append);
-//            messages.getOrDefault(field, new ArrayList<>()).forEach(sb::append);
             return sb.toString();
         }
     }

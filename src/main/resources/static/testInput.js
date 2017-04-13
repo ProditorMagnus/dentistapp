@@ -8,3 +8,9 @@ function fillForm() {
     $("#dentistName").val(denNames[Math.floor((Math.random() * denNames.length))]);
     $("#docName").val(docNames[Math.floor((Math.random() * docNames.length))]);
 }
+
+function fillValidDate() {
+    fillForm();
+    $("#visitTime").val(moment().add(1 + Math.floor((Math.random() * 10)), "days").format('DD.MM.YYYY'));
+    $("#visitHours").val((10 + Math.floor((Math.random() * 9)) + ":" + (30 * Math.floor(Math.random() + 0.5))));
+}

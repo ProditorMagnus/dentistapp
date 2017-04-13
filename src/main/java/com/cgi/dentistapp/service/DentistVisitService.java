@@ -17,7 +17,7 @@ public class DentistVisitService {
     private DentistVisitDao dentistVisitDao;
 
     public void addVisit(String dentistName, String docName, Date visitTime, Date visitTimeH) {
-        DentistVisitEntity visit = new DentistVisitEntity(dentistName, docName, new Date(visitTime.getYear(), visitTime.getMonth(), visitTime.getDay(), visitTimeH.getHours(), visitTimeH.getMinutes()));
+        DentistVisitEntity visit = new DentistVisitEntity(dentistName, docName, new Date(visitTime.getYear(), visitTime.getMonth(), visitTime.getDate(), visitTimeH.getHours(), visitTimeH.getMinutes()));
         dentistVisitDao.create(visit);
     }
 

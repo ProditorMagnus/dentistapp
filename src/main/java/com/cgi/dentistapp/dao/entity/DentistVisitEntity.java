@@ -23,6 +23,9 @@ public class DentistVisitEntity {
     @Column(name = "remote_ip")
     private String remoteIP;
 
+    @Column(name = "timestamp")
+    private Date timestamp;
+
     public DentistVisitEntity() {
     }
 
@@ -35,6 +38,7 @@ public class DentistVisitEntity {
         } else {
             this.setDocName("null");
         }
+        this.setTimestamp(new Date());
     }
 
     public Long getId() {
@@ -75,5 +79,13 @@ public class DentistVisitEntity {
 
     public void setRemoteIP(String remoteIP) {
         this.remoteIP = remoteIP;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 }

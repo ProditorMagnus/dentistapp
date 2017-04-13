@@ -95,6 +95,6 @@ public class DentistVisitEntity {
     }
 
     public String getDateString() {
-        return new SimpleDateFormat("dd.MM.yyyy hh:mm").format(getVisitTime());
+        return new SimpleDateFormat("dd.MM.yyyy HH:mm").format(getVisitTime());
     }
 }

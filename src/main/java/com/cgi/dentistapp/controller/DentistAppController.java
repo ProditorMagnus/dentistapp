@@ -19,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
@@ -62,8 +63,11 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
         if (timeValidation.hasError(timeField)) {
             bindingResult.addError(new FieldError(timeField, timeField, timeValidation.getMessages(timeField)));
         }
-        if (conflictingTime(dentistVisitDTO)) {
-            bindingResult.addError(new FieldError(timeField, timeField, "See aeg on sellel päeval juba valitud"));
+        if (!bindingResult.hasErrors() && conflictingTime(dentistVisitDTO)) {
+            bindingResult.addError(new FieldError(timeField, timeField,
+                    String.format("Kuupäeval %s on aeg %s juba valitud",
+                            new SimpleDateFormat("dd.MM.yyyy").format(dentistVisitDTO.getVisitTime()),
+                            new SimpleDateFormat("HH:mm").format(dentistVisitDTO.getVisitTimeH()))));
         }
         if (bindingResult.hasErrors()) {
             return "form";
@@ -109,7 +113,9 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
         try {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(dentistVisitDTO.getVisitTime());
-
+            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+                return new TimeValidationResult(false, field, "Vastuvõtt toimub ainult tööpäeviti");
+            }
             if (DateUtils.isSameDay(calendar, Calendar.getInstance())) {
                 // same day, so need to check h too
                 Calendar hours = Calendar.getInstance();

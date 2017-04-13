@@ -3,14 +3,18 @@
  */
 
 function fillForm() {
-    var denNames = ["den 1", "den 2", "den 3"];
-    var docNames = ["doc 1", "doc 2", "doc 3", ""];
+    var denNames = ["Praxis Dionysus", "Mneme Carme", "Aruna Helios", "Medousa Phrixos"];
+    var docNames = ["Durga Patroklos", "Soroush Praxis", "Pekko Evandrus", ""];
     $("#dentistName").val(denNames[Math.floor((Math.random() * denNames.length))]);
     $("#docName").val(docNames[Math.floor((Math.random() * docNames.length))]);
 }
 
 function fillValidDate() {
     fillForm();
-    $("#visitTime").val(moment().add(1 + Math.floor((Math.random() * 10)), "days").format('DD.MM.YYYY'));
+    var date = moment();
+    do {
+        date = date.add(1 + Math.floor((Math.random() * 3)), "days");
+    } while (date.isoWeekday() === 6 || date.isoWeekday() === 7);
+    $("#visitTime").val(date.format('DD.MM.YYYY'));
     $("#visitHours").val((10 + Math.floor((Math.random() * 9)) + ":" + (30 * Math.floor(Math.random() + 0.5))));
 }

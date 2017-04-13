@@ -56,7 +56,7 @@
         </tr>
         <tr th:each="visit : ${visits}">
             <td th:text="${visit.id}">Text ...</td>
-            <td th:text="${visit.visitTime}">Text ...</td>
+            <td th:text="${visit.getDateString()}">Text ...</td>
             <td th:text="${visit.docName}">Text ...</td>
             <td th:text="${visit.dentistName}">Text ...</td>
             <td><a th:href="'/details/'+${visit.id}" th:text="#{visit.details}"></a></td>

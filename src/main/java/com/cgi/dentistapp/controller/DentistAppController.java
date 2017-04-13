@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -160,6 +161,19 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
             return false;
         }
         return true;
+    }
+
+    @GetMapping("/details/{id}")
+    public String showDetails(@PathVariable("id") int id, ModelMap model) {
+        model.addAttribute("visit", dentistVisitService.listVisits().stream().filter(dentistVisitEntity -> dentistVisitEntity.getId() == id).findFirst().get());
+        return "details";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteRegistration(@PathVariable("id") int id, ModelMap model) {
+//        model.addAttribute("visit", dentistVisitService.listVisits().stream().filter(dentistVisitEntity -> dentistVisitEntity.getId() == id).findFirst().get());
+        dentistVisitService.delVisit(id);
+        return "redirect:/view";
     }
 
     private static class TimeValidationResult {

@@ -28,4 +28,7 @@ public class DentistVisitService {
         return dentistVisitDao.getAllVisits();
     }
 
+    public void delVisit(int id) {
+        dentistVisitDao.delVisit(id);
+    }
 }

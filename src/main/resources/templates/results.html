@@ -1,5 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8"/>
     <title th:text="#{registreerimine.ok}">registreerimine.ok</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
@@ -13,6 +14,8 @@
 </head>
 <body>
 <div th:replace="navbar :: header"></div>
-<p th:text="#{registreerimine.ok}">registreerimine.ok</p>
+<div class="container">
+    <p th:text="#{registreerimine.ok}">registreerimine.ok</p>
+</div>
 </body>
 </html>

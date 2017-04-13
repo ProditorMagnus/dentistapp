@@ -5,3 +5,5 @@ Siis tuli käivitades hulk exceptioneid, alumine neist nullpointer. Isegi revert
 Süsteemi taaskäivitamine oli tüütu, sellega läks iga iteratsioon 0.3min. Seega uurisin JRebeli kohta. See lahendas probleemi.
 
 Kujunduse tegemine oli lihtne, töö oli juba veebirakenduste loomise aine raames tehtud.
+
+Nime otsingut üritatakse kõigepealt tõlgendada kui regulaaravaldist, kus algusesse ja lõppu pannakse .* , kui ei õnnestu, siis vaadatakse alamsõnet

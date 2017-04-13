@@ -17,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import javax.validation.Valid;
 import java.util.*;
+import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
 
 @Controller
@@ -126,10 +127,36 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
 
     private boolean searchMatches(DentistVisitDTO dentistVisitDTO, DentistVisitEntity dentistVisitEntity) {
         Date visitTime = dentistVisitDTO.getVisitTime();
-        Date visitTimeH = dentistVisitDTO.getVisitTimeH();
+        Date visitHours = dentistVisitDTO.getVisitTimeH();
         String dentistName = dentistVisitDTO.getDentistName();
         String docName = dentistVisitDTO.getDocName();
-        if (docName != null && !"".equals(docName) && dentistVisitEntity.getDocName() != null && !docName.equals(dentistVisitEntity.getDocName())) {
+        String realDentistName = dentistVisitEntity.getDentistName();
+        String realDoctorName = dentistVisitEntity.getDocName();
+        Date realVisitTime = dentistVisitEntity.getVisitTime();
+        try {
+            if (dentistName != null && !"".equals(dentistName) && !realDentistName.matches(".*" + dentistName + ".*")) {
+                return false;
+            }
+        } catch (PatternSyntaxException e) {
+            if (!"".equals(dentistName) && realDentistName != null && !realDentistName.contains(dentistName)) {
+                return false;
+            }
+        }
+        try {
+            if (docName != null && !"".equals(docName) && realDoctorName != null &&
+                    !realDoctorName.matches(".*" + docName + ".*")) {
+                return false;
+            }
+        } catch (PatternSyntaxException e) {
+            if (!"".equals(docName) && realDoctorName != null && !realDoctorName.contains(docName)) {
+                return false;
+            }
+        }
+        if (visitTime != null && !DateUtils.isSameDay(visitTime, realVisitTime)) {
+            return false;
+        }
+        if (visitHours != null &&
+                DateUtils.getFragmentInMinutes(visitHours, Calendar.DATE) != DateUtils.getFragmentInMinutes(realVisitTime, Calendar.DATE)) {
             return false;
         }
         return true;

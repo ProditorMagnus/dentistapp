@@ -1,5 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8"/>
     <title>Avaleht</title>
     <script type="text/ecmascript" src="pickDate.js"></script>
     <script type="text/ecmascript" src="testInput.js"></script>
@@ -55,7 +56,8 @@
             </div>
         </div>
         <button type="submit" class="btn btn-md btn-default" th:text="#{registreeri.visiidile}"></button>
-        <button type="button" class="btn btn-md btn-default" onclick="fillValidDate()" th:text="#{str.test.all}"></button>
+        <button type="button" class="btn btn-md btn-default" onclick="fillValidDate()"
+                th:text="#{str.test.all}"></button>
         <button type="button" class="btn btn-md btn-default" onclick="fillForm()" th:text="#{str.test}"></button>
     </form>
 </div>

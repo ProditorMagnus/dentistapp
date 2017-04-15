@@ -32,7 +32,7 @@
             <td th:text="${visit.docName}">Text ...</td>
             <td th:text="${visit.dentistName}">Text ...</td>
             <td th:text="${visit.remoteIP}">Text ...</td>
-            <td th:text="${visit.timestamp}">Text ...</td>
+            <td th:text="${visit.getTimestampString()}">Text ...</td>
             <td><a th:href="'/edit/'+${visit.id}" th:text="#{str.edit}"></a></td>
             <td><a th:href="'/delete/'+${visit.id}" th:text="#{str.delete}"></a></td>
         </tr>

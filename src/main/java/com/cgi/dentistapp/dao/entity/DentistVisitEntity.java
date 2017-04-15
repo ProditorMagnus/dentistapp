@@ -90,6 +90,10 @@ public class DentistVisitEntity {
         return timestamp;
     }
 
+    public String getTimestampString() {
+        return new SimpleDateFormat("dd.MM.yyyy HH:mm.SSS").format(getTimestamp());
+    }
+
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }

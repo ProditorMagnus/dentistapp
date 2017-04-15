@@ -12,3 +12,5 @@ Nime otsingut üritatakse kõigepealt tõlgendada kui regulaaravaldist, kus algu
 Detailideks said siis päringu tegemise aeg ja IP
 
 Ebamugavaks osutus kuupäeva ja kellaaja lahus hoidmine. Selle lahendamiseks tegin juurde DentistEditDTO ja lisasin kuupäeva formaadi teisendamise meetodi.
+
+Aegade kattumise kontrolliks pigem küsin kõik registreeringud kui luban teha SQL injection.

@@ -3,7 +3,7 @@ Projekti võib importida arenduskeskkonda, vastavalt juhendile [IntelliJ](https:
 
 Alternatiiviks on lisatud [jar fail](https://github.com/ProditorMagnus/dentistapp/blob/master/dentistapp.jar), mida saab käivitada käsureal "java -jar dentistapp.jar".
 
-Käivitamise tulemusel pannakse tööle veebriserver, mille vaikimisi aadress on http://localhost:8080/
+Käivitamise tulemusel pannakse tööle veebiserver, mille vaikimisi aadress on http://localhost:8080/
 
 # Kommentaarid
 Lisatud failis [feedback.txt](https://github.com/ProditorMagnus/dentistapp/blob/master/feedback.txt)

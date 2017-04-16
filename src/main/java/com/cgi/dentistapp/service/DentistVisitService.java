@@ -40,4 +40,8 @@ public class DentistVisitService {
     public void delVisit(int id) {
         dentistVisitDao.delVisit(id);
     }
+
+    public DentistVisitEntity getVisit(int id) {
+        return dentistVisitDao.getVisit(id);
+    }
 }

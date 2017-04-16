@@ -65,7 +65,7 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
         }
         if (!bindingResult.hasErrors() && conflictingTime(dentistVisitDTO)) {
             bindingResult.addError(new FieldError(timeField, timeField,
-                    String.format("Kuupäeval %s on aeg %s juba valitud",
+                    String.format("Kuupäeval %s on aeg %s juba valitud.",
                             new SimpleDateFormat("dd.MM.yyyy").format(dentistVisitDTO.getVisitTime()),
                             new SimpleDateFormat("HH:mm").format(dentistVisitDTO.getVisitTimeH()))));
         }
@@ -95,10 +95,10 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(dentistVisitDTO.getVisitTimeH());
             if (calendar.get(Calendar.HOUR_OF_DAY) > closeH || calendar.get(Calendar.HOUR_OF_DAY) < openH) {
-                return new TimeValidationResult(false, field, "Vigane vastuvõtukellaaeg");
+                return new TimeValidationResult(false, field, "Vigane vastuvõtukellaaeg!");
             }
             if (calendar.get(Calendar.MINUTE) % appointmentLen != 0) {
-                return new TimeValidationResult(false, field, "Vigane minutite hulk, tunnis on " + appointmentsPerH + " vastuvõttu");
+                return new TimeValidationResult(false, field, "Vigane minutite hulk, tunnis on " + appointmentsPerH + " vastuvõttu.");
             }
         } catch (NullPointerException e) {
             // message added by thymeleaf already
@@ -114,7 +114,7 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(dentistVisitDTO.getVisitTime());
             if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-                return new TimeValidationResult(false, field, "Vastuvõtt toimub ainult tööpäeviti");
+                return new TimeValidationResult(false, field, "Vastuvõtt toimub ainult tööpäeviti.");
             }
             if (DateUtils.isSameDay(calendar, Calendar.getInstance())) {
                 // same day, so need to check h too
@@ -124,10 +124,10 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
                 long current = DateUtils.getFragmentInMinutes(Calendar.getInstance(), Calendar.DATE);
                 if (chosen < current) {
                     // same day, and earlier time
-                    return new TimeValidationResult(false, field, "Vastuvõtuaeg on minevikus 2").addInvalidField("visitTimeH").addMessage("visitTimeH", "Vastuvõtuaeg on minevikus");
+                    return new TimeValidationResult(false, field, "Vastuvõtuaeg ei saa olla minevikus.").addInvalidField("visitTimeH").addMessage("visitTimeH", "Vastuvõtuaeg on minevikus");
                 }
             } else if (calendar.before(Calendar.getInstance())) {
-                return new TimeValidationResult(false, field, "Vastuvõtuaeg on minevikus 1");
+                return new TimeValidationResult(false, field, "Vastuvõtuaeg ei saa olla minevikus.");
             }
         } catch (NullPointerException e) {
             // message added by thymeleaf already
@@ -201,9 +201,7 @@ public class DentistAppController extends WebMvcConfigurerAdapter {
 
     @RequestMapping("/edit/{id}")
     public String editRegistration(@PathVariable("id") int id, DentistEditDTO dentistEditDTO, ModelMap model) {
-        DentistVisitEntity entity = dentistVisitService.listVisits().stream().filter(e -> e.getId() == id).findFirst().get();
-        Date visitTime = entity.getVisitTime();
-        model.addAttribute("visit", entity);
+        model.addAttribute("visit", dentistVisitService.getVisit(id));
         return "edit";
     }
 
